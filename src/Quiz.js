@@ -12,22 +12,28 @@ class Quiz extends React.Component {
     };
   }
 
+  showNextQuestion() {
+    this.setState(state => {
+      return { quiz_position: state.quiz_position + 1 };
+    });
+  }
   render() {
     const isQuizEnd =
       this.state.quiz_position - 1 === quizData.quiz_questions.length;
-    if (isQuizEnd) {
-      return (
-        <div>
+    return (
+      <div>
+        {isQuizEnd ? (
           <QuizEnd />
-        </div>
-      );
-    } else {
-      return (
-        <QuizQuestion
-          quiz_question={quizData.quiz_questions[this.state.quiz_position - 1]}
-        />
-      );
-    }
+        ) : (
+          <QuizQuestion
+            quiz_question={
+              quizData.quiz_questions[this.state.quiz_position - 1]
+            }
+            showNextQuestionHandler={this.showNextQuestion.bind(this)}
+          />
+        )}
+      </div>
+    );
   }
 }
 export default Quiz;
